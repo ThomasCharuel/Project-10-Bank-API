@@ -1,14 +1,11 @@
-import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import UserContext from '../../context/UserContext';
+import React from 'react';
+import { useAuth } from '../../hooks/Auth';
 
 export default function LoginPage() {
-  const { login } = useContext(UserContext);
-  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = () => {
     login({ firstName: 'Pedro', lastName: 'Jarvis' });
-    navigate('/profile');
   };
 
   return (

@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
-import UserContext from '../../context/UserContext';
+import React from 'react';
+import { useAuth } from '../../hooks/Auth';
 
 export default function ProfilePage() {
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
 
   return (
     <main className="main bg-dark">

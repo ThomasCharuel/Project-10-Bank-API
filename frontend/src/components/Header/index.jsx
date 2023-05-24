@@ -1,15 +1,14 @@
-import React, { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import UserContext from '../../context/UserContext';
+/* eslint-disable no-unused-vars */
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../hooks/Auth';
 import logo from '../../assets/img/argentBankLogo.png';
 
 export default function Header() {
-  const { user, logout } = useContext(UserContext);
-  const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
-    navigate('/');
   };
 
   return user ? (
