@@ -21,11 +21,11 @@ export default function Header() {
       <div>
         <Link to="/profile" className="main-nav-item">
           <i className="fa fa-user-circle"></i>
-          {user.firstName}
+          &nbsp;{user.firstName}&nbsp;
         </Link>
         <button onClick={handleLogout} className="main-nav-item">
           <i className="fa fa-sign-out"></i>
-          Sign Out
+          &nbsp;Sign Out
         </button>
       </div>
     </nav>
@@ -38,7 +38,7 @@ export default function Header() {
       <div>
         <Link to="/login" className="main-nav-item">
           <i className="fa fa-user-circle"></i>
-          Sign In
+          &nbsp;Sign In
         </Link>
       </div>
     </nav>
