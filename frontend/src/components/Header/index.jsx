@@ -30,13 +30,13 @@ export default function Header() {
       </div>
     </nav>
   ) : (
-    <nav className="main-nav">
-      <Link to="/" className="main-nav-logo">
-        <img className="main-nav-logo-image" src={logo} alt="Argent Bank Logo" />
+    <nav className={styles.header}>
+      <Link to="/" className={styles.header__logo}>
+        <img className={styles.header__logo_image} src={logo} alt="Argent Bank Logo" />
         <h1 className="sr-only">Argent Bank</h1>
       </Link>
       <div>
-        <Link to="/login" className="main-nav-item">
+        <Link to="/login" className={styles.navigation__item}>
           <i className="fa fa-user-circle"></i>
           &nbsp;Sign In
         </Link>
