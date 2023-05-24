@@ -1,0 +1,33 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 20px;
+
+  &__logo {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+
+    &_image {
+      max-width: 100%;
+      width: 200px;
+    }
+  }
+
+  .navigation__item {
+    font-weight: bold;
+    color: #2c3e50;
+    text-decoration: none;
+    margin-right: 0.5rem;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
