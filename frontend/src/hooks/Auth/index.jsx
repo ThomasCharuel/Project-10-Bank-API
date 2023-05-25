@@ -1,19 +1,19 @@
 import React, { createContext, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import { useLocalStorage } from '../LocalStorage';
+import { STORAGE, useStorage } from '../Storage';
 import { signIn, getUserProfile } from '../../_services/Api.Service';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useLocalStorage('user', null);
+  const [user, setUser] = useStorage('user', null);
   const navigate = useNavigate();
 
   // Call to authenticate the user
   const login = async (data) => {
     // Logic to perform login and set the user data
-    const { email, password } = data;
+    const { email, password, rememberMe } = data;
 
     const signInResponse = await signIn(email, password);
     const { token } = signInResponse.body; // Extract the token from the response
@@ -21,11 +21,15 @@ export const AuthProvider = ({ children }) => {
     const userProfileResponse = await getUserProfile(token);
     const { firstName, lastName } = userProfileResponse.body;
 
-    setUser({
-      firstName,
-      lastName,
-      token,
-    });
+    // Save user data. Based on "remember me" input we save user in memory (state) or local storage
+    setUser(
+      {
+        firstName,
+        lastName,
+        token,
+      },
+      rememberMe ? STORAGE.PERSISTENT : STORAGE.MEMORY,
+    );
 
     navigate('/profile');
   };
@@ -33,7 +37,7 @@ export const AuthProvider = ({ children }) => {
   // Call to sign out logged in user
   const logout = () => {
     // Logic to perform logout and clear the user data
-    setUser(null);
+    setUser(null, STORAGE.PERSISTENT);
     navigate('/');
   };
 

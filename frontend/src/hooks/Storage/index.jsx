@@ -1,6 +1,12 @@
 import { useState } from 'react';
 
-export const useLocalStorage = (keyName, defaultValue) => {
+// Enum defining different storage types: local (persistent) or memory (react state)
+const STORAGE = {
+  PERSISTENT: Symbol('persistent'),
+  MEMORY: Symbol('memory'),
+};
+
+const useStorage = (keyName, defaultValue) => {
   const [storedValue, setStoredValue] = useState(() => {
     try {
       const value = window.localStorage.getItem(keyName);
@@ -15,9 +21,13 @@ export const useLocalStorage = (keyName, defaultValue) => {
     }
   });
 
-  const setValue = (newValue) => {
-    window.localStorage.setItem(keyName, JSON.stringify(newValue));
+  const setValue = (newValue, storageType) => {
+    if (storageType === STORAGE.PERSISTENT) {
+      window.localStorage.setItem(keyName, JSON.stringify(newValue));
+    }
     setStoredValue(newValue);
   };
   return [storedValue, setValue];
 };
+
+export { STORAGE, useStorage };

@@ -7,6 +7,7 @@ export default function LoginPage() {
   const [error, setError] = useState(null);
   const emailRef = useRef();
   const passwordRef = useRef();
+  const rememberMeRef = useRef();
 
   const handleFormSubmit = (e) => {
     // Prevent the browser from reloading the page
@@ -15,9 +16,10 @@ export default function LoginPage() {
     // Access input values
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
+    const rememberMe = rememberMeRef.current.checked;
 
     // Sign in user
-    login({ email, password }).catch((e) => setError(e.message));
+    login({ email, password, rememberMe }).catch((e) => setError(e.message));
   };
 
   return (
@@ -35,7 +37,7 @@ export default function LoginPage() {
             <input type="password" id="password" ref={passwordRef} />
           </div>
           <div className={styles.form_section__input_remember}>
-            <input type="checkbox" id="remember-me" />
+            <input type="checkbox" id="remember-me" ref={rememberMeRef} />
             <label htmlFor="remember-me">Remember me</label>
           </div>
           <button type="submit" className={styles.form_section__button}>
