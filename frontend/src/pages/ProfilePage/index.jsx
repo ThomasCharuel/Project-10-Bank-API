@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../../hooks/Auth';
 import AccountSummary from '../../components/AccountSummary';
+import UserProfileEditForm from '../../components/UserProfileEditForm';
 import styles from './index.module.scss';
 
 const accounts = [
@@ -11,6 +12,7 @@ const accounts = [
 
 export default function ProfilePage() {
   const { user } = useAuth();
+  const [isEditFormOpen, setIsEditFormOpen] = useState(false);
 
   return (
     <main className="main bg-dark">
@@ -18,9 +20,19 @@ export default function ProfilePage() {
         <h1>
           Welcome back
           <br />
-          {user.firstName} {user.lastName}!
+          {!isEditFormOpen && (
+            <>
+              {user.firstName} {user.lastName}!
+            </>
+          )}
         </h1>
-        <button className={styles.edit_button}>Edit Name</button>
+        {isEditFormOpen ? (
+          <UserProfileEditForm closeForm={() => setIsEditFormOpen(false)} />
+        ) : (
+          <button onClick={() => setIsEditFormOpen(true)} className={styles.edit_button}>
+            Edit Name
+          </button>
+        )}
       </div>
       <h2 className="sr-only">Accounts</h2>
 
