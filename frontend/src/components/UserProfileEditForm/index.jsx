@@ -18,7 +18,10 @@ export default function UserProfileEditForm({ closeForm }) {
 
     // Edit user profile
     console.log(firstName, lastName);
+
+    closeForm();
   };
+
   return (
     <form method="post" onSubmit={handleFormSubmit} className={styles.form}>
       <div className={styles.form__input_wrapper}>

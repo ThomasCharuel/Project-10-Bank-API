@@ -27,7 +27,6 @@ const signIn = async (email, password) => {
 
 const getUserProfile = async (token) => {
   try {
-    // const jwtToken = serviceData.headers.authorization.split('Bearer')[1].trim()
     const response = await fetch(`${API_BASE_URL}/user/profile`, {
       method: 'POST',
       headers: {
@@ -42,10 +41,30 @@ const getUserProfile = async (token) => {
       throw new Error('API request get user profile failed');
     }
   } catch (error) {
-    // Handle any error that occured during the query
     console.error('Error occured whilst querying user profile:', error.message);
     throw error;
   }
 };
 
-export { signIn, getUserProfile };
+const setUserProfile = async (data, token) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/user/profile`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      return await response.json();
+    } else {
+      throw new Error('API request set user profile failed');
+    }
+  } catch (error) {
+    console.error('Error occured whilst updating user profile:', error.message);
+    throw error;
+  }
+};
+
+export { signIn, getUserProfile, setUserProfile };
