@@ -2,6 +2,7 @@ import React, { createContext, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from '../LocalStorage';
+import { signIn, getUserProfile } from '../../_services/Api.Service';
 
 const AuthContext = createContext();
 
@@ -12,7 +13,20 @@ export const AuthProvider = ({ children }) => {
   // Call to authenticate the user
   const login = async (data) => {
     // Logic to perform login and set the user data
-    setUser(data);
+    const { email, password } = data;
+
+    const signInResponse = await signIn(email, password);
+    const { token } = signInResponse.body; // Extract the token from the response
+
+    const userProfileResponse = await getUserProfile(token);
+    const { firstName, lastName } = userProfileResponse.body;
+
+    setUser({
+      firstName,
+      lastName,
+      token,
+    });
+
     navigate('/profile');
   };
 

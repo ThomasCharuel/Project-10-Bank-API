@@ -44,4 +44,10 @@
     background-color: #00bc77;
     color: #fff;
   }
+
+  &__error_message {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
 }
