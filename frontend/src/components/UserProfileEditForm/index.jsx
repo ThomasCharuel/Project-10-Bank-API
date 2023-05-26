@@ -1,14 +1,16 @@
 import React, { useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useAuth } from '../../hooks/Auth';
+import { updateUserProfile, selectUserProfile } from '../../features/userProfile';
 import styles from './index.module.scss';
 
 export default function UserProfileEditForm({ closeForm }) {
-  const { user } = useAuth();
+  const dispatch = useDispatch();
+  const user = useSelector(selectUserProfile);
   const firstNameRef = useRef();
   const lastNameRef = useRef();
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     // Prevent the browser from reloading the page
     e.preventDefault();
 
@@ -17,7 +19,7 @@ export default function UserProfileEditForm({ closeForm }) {
     const lastName = lastNameRef.current.value;
 
     // Edit user profile
-    console.log(firstName, lastName);
+    await dispatch(updateUserProfile(firstName, lastName));
 
     closeForm();
   };

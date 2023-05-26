@@ -46,12 +46,13 @@ const getUserProfile = async (token) => {
   }
 };
 
-const setUserProfile = async (data, token) => {
+const postUserProfile = async (data, token) => {
   try {
     const response = await fetch(`${API_BASE_URL}/user/profile`, {
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     });
@@ -67,4 +68,4 @@ const setUserProfile = async (data, token) => {
   }
 };
 
-export { signIn, getUserProfile, setUserProfile };
+export { signIn, getUserProfile, postUserProfile };

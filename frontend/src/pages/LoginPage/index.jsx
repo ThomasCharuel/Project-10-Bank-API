@@ -1,10 +1,13 @@
-import React, { useRef, useState } from 'react';
-import { useAuth } from '../../hooks/Auth';
+import React, { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { redirect } from 'react-router-dom';
+import { login, selectAuthError } from '../../features/auth';
 import styles from './index.module.scss';
 
 export default function LoginPage() {
-  const { login } = useAuth();
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const logginError = useSelector(selectAuthError);
+
   const emailRef = useRef();
   const passwordRef = useRef();
   const rememberMeRef = useRef();
@@ -19,7 +22,9 @@ export default function LoginPage() {
     const rememberMe = rememberMeRef.current.checked;
 
     // Sign in user
-    login({ email, password, rememberMe }).catch((e) => setError(e.message));
+    dispatch(login(email, password, rememberMe)).then(() => {
+      redirect('/profile');
+    });
   };
 
   return (
@@ -43,7 +48,7 @@ export default function LoginPage() {
           <button type="submit" className={styles.form_section__button}>
             Sign In
           </button>
-          {error && <p className={styles.form_section__error_message}>{error}</p>}
+          {logginError && <p className={styles.form_section__error_message}>{logginError}</p>}
         </form>
       </section>
     </main>

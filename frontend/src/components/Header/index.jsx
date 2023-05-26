@@ -1,44 +1,44 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../hooks/Auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, selectUserIsAuthenticated } from '../../features/auth';
+import { selectUserProfile } from '../../features/userProfile';
 import logo from '../../assets/img/argentBankLogo.png';
 import styles from './index.module.scss';
 
 export default function Header() {
-  const { user, logout } = useAuth();
+  const dispatch = useDispatch();
+  const user = useSelector(selectUserProfile);
+  const isAuthenticated = useSelector(selectUserIsAuthenticated);
 
-  const handleLogout = () => {
-    logout();
+  const onClickLogout = () => {
+    dispatch(logout());
   };
 
-  return user ? (
+  return (
     <nav className={styles.header}>
       <Link to="/" className={styles.header__logo}>
         <img className={styles.header__logo_image} src={logo} alt="Argent Bank Logo" />
         <h1 className="sr-only">Argent Bank</h1>
       </Link>
       <div>
-        <Link to="/profile" className={styles.navigation__item}>
-          <i className="fa fa-user-circle"></i>
-          &nbsp;{user.firstName}&nbsp;
-        </Link>
-        <button onClick={handleLogout} className={styles.navigation__item}>
-          <i className="fa fa-sign-out"></i>
-          &nbsp;Sign Out
-        </button>
-      </div>
-    </nav>
-  ) : (
-    <nav className={styles.header}>
-      <Link to="/" className={styles.header__logo}>
-        <img className={styles.header__logo_image} src={logo} alt="Argent Bank Logo" />
-        <h1 className="sr-only">Argent Bank</h1>
-      </Link>
-      <div>
-        <Link to="/login" className={styles.navigation__item}>
-          <i className="fa fa-user-circle"></i>
-          &nbsp;Sign In
-        </Link>
+        {user && (
+          <Link to="/profile" className={styles.navigation__item}>
+            <i className="fa fa-user-circle"></i>
+            &nbsp;{user.firstName}&nbsp;
+          </Link>
+        )}
+        {isAuthenticated ? (
+          <button onClick={onClickLogout} className={styles.navigation__item}>
+            <i className="fa fa-sign-out"></i>
+            &nbsp;Sign Out
+          </button>
+        ) : (
+          <Link to="/login" className={styles.navigation__item}>
+            <i className="fa fa-user-circle"></i>
+            &nbsp;Sign In
+          </Link>
+        )}
       </div>
     </nav>
   );
