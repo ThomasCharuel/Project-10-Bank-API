@@ -1,29 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  fetchUserProfile,
-  selectUserProfile,
-  selectUserProfileStatus,
-} from '../../features/userProfile';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectUserProfile } from '../../features/userProfile';
+import { selectUserAccounts } from '../../features/userAccounts';
 import AccountSummary from '../../components/AccountSummary';
 import UserProfileEditForm from '../../components/UserProfileEditForm';
+import { useGetOrFetchUserProfile } from '../../hooks/getOrFetchUserProfile';
 import styles from './index.module.scss';
-import { selectUserAccounts } from '../../features/userAccounts';
 
 export default function ProfilePage() {
-  const dispatch = useDispatch();
-
-  const userProfileStatus = useSelector(selectUserProfileStatus);
+  useGetOrFetchUserProfile();
   const userProfile = useSelector(selectUserProfile);
+
   const accounts = useSelector(selectUserAccounts);
 
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
-
-  useEffect(() => {
-    if (userProfileStatus === 'idle') {
-      dispatch(fetchUserProfile());
-    }
-  }, [userProfileStatus]);
 
   return (
     userProfile && (
