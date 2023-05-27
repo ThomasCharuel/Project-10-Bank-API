@@ -9,9 +9,18 @@ const initialState = {
   error: null,
 };
 
+const authTokenInLocalStorage = window.localStorage.getItem('jwt');
+
 export const authSlice = createSlice({
   name: 'auth',
-  initialState,
+  initialState: authTokenInLocalStorage
+    ? {
+        status: 'succeeded',
+        isAuthenticated: true,
+        jwt: authTokenInLocalStorage,
+        error: null,
+      }
+    : initialState,
   reducers: {
     resetAuthentication: () => initialState,
     authenticationStarted: (state) => {
@@ -43,7 +52,8 @@ export const login = (email, password, persist) => async (dispatch) => {
     const data = await signIn(email, password);
     const authToken = data.body.token;
     if (persist) {
-      console.log(persist);
+      // Persist credentials in local storage
+      window.localStorage.setItem('jwt', authToken);
     }
     dispatch(authenticationSuccess(authToken));
   } catch (err) {
@@ -52,6 +62,9 @@ export const login = (email, password, persist) => async (dispatch) => {
 };
 
 export const logout = () => (dispatch) => {
+  // Unpersist credentials in local storage
+  window.localStorage.removeItem('jwt');
+
   dispatch(resetAuthentication());
   dispatch(resetUserProfile());
 };
