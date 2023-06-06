@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectUserIsAuthenticated } from '../../features/auth';
 
-// Enum defining different storage types: local (persistent) or memory (react state)
+// Enum defining user types allowed to access the route
 export const USER_TYPES = {
   SIGNED_IN: Symbol('signed_in'),
   NOT_SIGNED_IN: Symbol('not_signed_in'),

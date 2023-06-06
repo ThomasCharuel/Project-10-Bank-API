@@ -1,5 +1,11 @@
 const API_BASE_URL = 'http://localhost:3001/api/v1';
 
+/**
+ * Authenticate user
+ * @param { String } email User email
+ * @param { String } password User password
+ * @return { Object } Authentication query response
+ */
 const signIn = async (email, password) => {
   try {
     // Send the sign-in request
@@ -25,6 +31,11 @@ const signIn = async (email, password) => {
   }
 };
 
+/**
+ * Get User profile
+ * @param { String } token JWT
+ * @return { Object } User profile query response
+ */
 const getUserProfile = async (token) => {
   try {
     const response = await fetch(`${API_BASE_URL}/user/profile`, {
@@ -46,6 +57,12 @@ const getUserProfile = async (token) => {
   }
 };
 
+/**
+ * Update User profile
+ * @param { Object } data User profile
+ * @param { String } token JWT
+ * @return { Object } Update user profile query response
+ */
 const postUserProfile = async (data, token) => {
   try {
     const response = await fetch(`${API_BASE_URL}/user/profile`, {
