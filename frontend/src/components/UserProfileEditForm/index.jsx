@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { updateUserProfile, selectUserProfile } from '../../features/userProfile';
@@ -6,17 +6,15 @@ import styles from './index.module.scss';
 
 export default function UserProfileEditForm({ closeForm }) {
   const dispatch = useDispatch();
+
   const user = useSelector(selectUserProfile);
-  const firstNameRef = useRef();
-  const lastNameRef = useRef();
+
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
 
   const handleFormSubmit = async (e) => {
     // Prevent the browser from reloading the page
     e.preventDefault();
-
-    // Access input values
-    const firstName = firstNameRef.current.value;
-    const lastName = lastNameRef.current.value;
 
     // Edit user profile
     await dispatch(updateUserProfile(firstName, lastName));
@@ -30,15 +28,15 @@ export default function UserProfileEditForm({ closeForm }) {
         <input
           type="text"
           id="firstname"
-          ref={firstNameRef}
-          placeholder={user.firstName}
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
           className={styles.form__input}
         />
         <input
           type="text"
           id="lastname"
-          ref={lastNameRef}
-          placeholder={user.lastName}
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
           className={styles.form__input}
         />
       </div>
